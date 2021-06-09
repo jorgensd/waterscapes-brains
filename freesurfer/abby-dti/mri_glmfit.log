@@ -1,0 +1,21 @@
+
+$Id: mri_glmfit.c,v 1.241.2.4 2016/12/08 22:02:40 zkaufman Exp $
+cwd /home/abby/hikeandsurf/Book/mri2fem/mri2fem/chp5
+cmdline mri_glmfit.bin --y /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec.nii.gz --glmdir /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti --dti dti.bvals dti.voxel_space.bvecs 
+sysname  Linux
+hostname abby-ThinkPad-P53
+machine  x86_64
+user     abby
+FixVertexAreaFlag = 1
+UseMaskWithSmoothing     1
+OneSampleGroupMean 0
+y    /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec.nii.gz
+logyflag 1
+usedti  1
+glmdir /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti
+IllCondOK 0
+ReScaleX 1
+DoFFx 0
+ResidualFWHM -1.000000
+SearchSpace 2507906.250000
+anattype volume

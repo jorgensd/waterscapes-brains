@@ -1,0 +1,76 @@
+status file for recon-all
+ma. 18. mars 16:08:23 +0100 2019
+#@# MotionCor ma. 18. mars 16:08:45 +0100 2019
+#@# Talairach ma. 18. mars 16:09:44 +0100 2019
+#@# Talairach Failure Detection ma. 18. mars 16:12:22 +0100 2019
+#@# Nu Intensity Correction ma. 18. mars 16:12:27 +0100 2019
+#@# Intensity Normalization ma. 18. mars 16:15:32 +0100 2019
+#@# Skull Stripping ma. 18. mars 16:17:42 +0100 2019
+#@# EM Registration ma. 18. mars 16:46:04 +0100 2019
+#@# CA Normalize ma. 18. mars 17:05:08 +0100 2019
+#@# CA Reg ma. 18. mars 17:06:47 +0100 2019
+#@# SubCort Seg ma. 18. mars 19:40:49 +0100 2019
+#@# Merge ASeg ma. 18. mars 20:43:06 +0100 2019
+#@# Intensity Normalization2 ma. 18. mars 20:43:06 +0100 2019
+#@# Mask BFS ma. 18. mars 20:46:30 +0100 2019
+#@# WM Segmentation ma. 18. mars 20:46:33 +0100 2019
+#@# Fill ma. 18. mars 20:48:33 +0100 2019
+#@# Tessellate lh ma. 18. mars 20:49:18 +0100 2019
+#@# Tessellate rh ma. 18. mars 20:49:42 +0100 2019
+#@# Smooth1 lh ma. 18. mars 20:49:49 +0100 2019
+#@# Smooth1 rh ma. 18. mars 20:49:55 +0100 2019
+#@# Inflation1 lh ma. 18. mars 20:50:00 +0100 2019
+#@# Inflation1 rh ma. 18. mars 20:50:35 +0100 2019
+#@# QSphere lh ma. 18. mars 20:51:09 +0100 2019
+#@# QSphere rh ma. 18. mars 20:55:05 +0100 2019
+#@# Fix Topology Copy lh ma. 18. mars 20:59:19 +0100 2019
+#@# Fix Topology Copy rh ma. 18. mars 20:59:27 +0100 2019
+#@# Fix Topology lh ma. 18. mars 20:59:33 +0100 2019
+#@# Fix Topology rh ma. 18. mars 21:09:37 +0100 2019
+#@# Make White Surf lh ma. 18. mars 21:20:40 +0100 2019
+#@# Make White Surf rh ma. 18. mars 21:26:11 +0100 2019
+#@# Smooth2 lh ma. 18. mars 21:31:29 +0100 2019
+#@# Smooth2 rh ma. 18. mars 21:31:35 +0100 2019
+#@# Inflation2 lh ma. 18. mars 21:31:40 +0100 2019
+#@# Inflation2 rh ma. 18. mars 21:32:15 +0100 2019
+#@# Curv .H and .K lh ma. 18. mars 21:32:51 +0100 2019
+#@# Curv .H and .K rh ma. 18. mars 21:34:15 +0100 2019
+#@# Curvature Stats lh ma. 18. mars 21:35:36 +0100 2019
+#@# Curvature Stats rh ma. 18. mars 21:35:41 +0100 2019
+#@# Sphere lh ma. 18. mars 21:35:45 +0100 2019
+#@# Sphere rh ma. 18. mars 22:27:37 +0100 2019
+#@# Surf Reg lh ma. 18. mars 23:16:29 +0100 2019
+#@# Surf Reg rh ti. 19. mars 00:08:04 +0100 2019
+#@# Jacobian white lh ti. 19. mars 00:56:50 +0100 2019
+#@# Jacobian white rh ti. 19. mars 00:57:06 +0100 2019
+#@# AvgCurv lh ti. 19. mars 00:57:18 +0100 2019
+#@# AvgCurv rh ti. 19. mars 00:57:22 +0100 2019
+#@# Cortical Parc lh ti. 19. mars 00:57:31 +0100 2019
+#@# Cortical Parc rh ti. 19. mars 00:58:00 +0100 2019
+#@# Make Pial Surf lh ti. 19. mars 00:58:36 +0100 2019
+#@# Make Pial Surf rh ti. 19. mars 01:13:34 +0100 2019
+#@# Surf Volume lh ti. 19. mars 01:28:08 +0100 2019
+#@# Surf Volume rh ti. 19. mars 01:29:18 +0100 2019
+#@# Cortical ribbon mask ti. 19. mars 01:29:49 +0100 2019
+#@# Parcellation Stats lh ti. 19. mars 01:46:54 +0100 2019
+#@# Parcellation Stats rh ti. 19. mars 01:49:59 +0100 2019
+#@# Cortical Parc 2 lh ti. 19. mars 01:52:43 +0100 2019
+#@# Cortical Parc 2 rh ti. 19. mars 01:53:33 +0100 2019
+#@# Parcellation Stats 2 lh ti. 19. mars 01:54:17 +0100 2019
+#@# Parcellation Stats 2 rh ti. 19. mars 01:56:16 +0100 2019
+#@# Cortical Parc 3 lh ti. 19. mars 01:57:31 +0100 2019
+#@# Cortical Parc 3 rh ti. 19. mars 01:58:03 +0100 2019
+#@# Parcellation Stats 3 lh ti. 19. mars 01:58:30 +0100 2019
+#@# Parcellation Stats 3 rh ti. 19. mars 02:00:09 +0100 2019
+#@# WM/GM Contrast lh ti. 19. mars 02:01:25 +0100 2019
+#@# WM/GM Contrast rh ti. 19. mars 02:02:58 +0100 2019
+#@# Relabel Hypointensities ti. 19. mars 02:03:33 +0100 2019
+#@# AParc-to-ASeg aparc ti. 19. mars 02:03:59 +0100 2019
+#@# AParc-to-ASeg a2009s ti. 19. mars 02:09:20 +0100 2019
+#@# AParc-to-ASeg DKTatlas ti. 19. mars 02:15:02 +0100 2019
+#@# APas-to-ASeg ti. 19. mars 02:20:24 +0100 2019
+#@# ASeg Stats ti. 19. mars 02:20:39 +0100 2019
+#@# WMParc ti. 19. mars 02:25:10 +0100 2019
+#@# BA_exvivo Labels lh ti. 19. mars 02:36:13 +0100 2019
+#@# BA_exvivo Labels rh ti. 19. mars 02:42:56 +0100 2019
+recon-all -s abby finished without error at ti. 19. mars 02:49:42 +0100 2019

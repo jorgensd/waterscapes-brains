@@ -1,0 +1,9 @@
+Logfile for pctsurfcon
+ti. 19. mars 02:03:00 +0100 2019
+setenv SUBJECTS_DIR /work/jobs/
+cd /work/jobs//abby/scripts
+/cluster/software/VERSIONS/freesurfer-6.0.0/bin/pctsurfcon
+$Id: pctsurfcon,v 1.15 2016/02/12 21:43:15 zkaufman Exp $
+Linux compute-15-32.local 2.6.32-754.6.3.el6.x86_64 #1 SMP Tue Oct 9 17:27:49 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+FREESURFER_HOME /cluster/software/VERSIONS/freesurfer-6.0.0
+Cleaning up

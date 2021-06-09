@@ -1,0 +1,128 @@
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0000
+
+Final result: 
+0.993284 0.000140 -0.000197 0.877748 
+-0.000672 0.995762 0.002062 0.556072 
+-0.000325 -0.000072 0.994953 0.280217 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0001
+
+Final result: 
+1.014591 0.006224 -0.004563 -2.525578 
+-0.003378 1.020829 0.007783 -3.274681 
+0.005009 -0.005791 1.017741 0.163315 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0002
+
+Final result: 
+1.014176 0.004754 -0.006043 -2.237062 
+-0.001288 1.018270 0.016621 -3.334718 
+0.001168 -0.004111 1.019911 0.377868 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0003
+
+Final result: 
+1.014696 0.003835 -0.004286 -2.272011 
+-0.004582 1.018066 0.016292 -2.910426 
+0.003248 -0.004730 1.019330 0.129568 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0004
+
+Final result: 
+1.013842 0.005324 -0.006448 -2.161980 
+-0.002459 1.017249 0.009576 -2.719162 
+0.004477 -0.005497 1.018429 0.098802 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0005
+
+Final result: 
+1.014145 0.004483 -0.006301 -2.124449 
+-0.001873 1.017173 0.010155 -2.928186 
+0.004907 -0.004531 1.018991 -0.064450 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0006
+
+Final result: 
+1.014559 0.003786 -0.006529 -2.108436 
+-0.004037 1.019369 0.012890 -3.107688 
+0.005514 -0.006306 1.020426 0.145659 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0007
+
+Final result: 
+1.014720 0.003850 -0.005757 -2.207445 
+-0.004226 1.020432 0.012798 -3.199054 
+0.002312 -0.005708 1.019805 0.332139 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0008
+
+Final result: 
+1.017568 -0.002967 0.013362 -2.386734 
+0.007286 1.022092 0.009169 -4.592464 
+-0.009647 -0.003126 1.014583 1.507304 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0009
+
+Final result: 
+1.015649 -0.007603 0.015465 -1.782549 
+0.006248 1.018575 0.018514 -4.340972 
+-0.011236 -0.002176 1.019875 1.502295 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0010
+
+Final result: 
+1.018018 -0.005937 0.011077 -1.928888 
+0.009303 1.020452 0.016241 -4.764104 
+-0.010674 -0.003485 1.017005 1.678696 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0011
+
+Final result: 
+1.016900 -0.003172 0.011808 -2.193909 
+0.007722 1.019674 0.011077 -4.317014 
+-0.009597 -0.002966 1.015046 1.477752 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0012
+
+Final result: 
+1.016480 -0.005919 0.012296 -1.825620 
+0.008205 1.016161 0.013059 -3.830558 
+-0.012664 0.002731 1.016697 1.119568 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0013
+
+Final result: 
+1.015777 -0.006251 0.013873 -1.862590 
+0.006667 1.016107 0.016757 -3.881487 
+-0.011771 0.000899 1.016956 1.151846 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0014
+
+Final result: 
+1.016139 -0.007041 0.012454 -1.683759 
+0.007398 1.018449 0.015665 -4.427848 
+-0.011134 -0.001355 1.018435 1.280064 
+0.000000 0.000000 0.000000 1.000000 
+
+processing /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/dwi-ec_tmp0015
+
+Final result: 
+1.016408 -0.007909 0.015544 -1.868629 
+0.007840 1.020714 0.021849 -5.041951 
+-0.011122 -0.003286 1.019554 1.475459 
+0.000000 0.000000 0.000000 1.000000 
+

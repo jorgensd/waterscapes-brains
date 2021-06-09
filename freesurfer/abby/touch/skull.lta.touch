@@ -1,0 +1,1 @@
+mri_em_register -rusage /work/jobs//abby/touch/rusage.mri_em_register.skull.dat -skull nu.mgz /cluster/software/VERSIONS/freesurfer-6.0.0/average/RB_all_withskull_2016-05-10.vc700.gca transforms/talairach_with_skull.lta

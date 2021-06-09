@@ -1,0 +1,1 @@
+mris_inflate -rusage /work/jobs//abby/touch/rusage.mris_inflate.lh.dat ../surf/lh.smoothwm ../surf/lh.inflated

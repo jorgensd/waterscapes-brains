@@ -1,0 +1,76 @@
+/work/jobs//abby/mri
+/cluster/software/VERSIONS/freesurfer-6.0.0/bin/mri_nu_correct.mni
+--no-rescale --i orig.mgz --o orig_nu.mgz --n 1 --proto-iters 1000 --distance 50
+nIters 1
+$Id: mri_nu_correct.mni,v 1.27 2016/02/26 16:19:49 mreuter Exp $
+Linux compute-15-32.local 2.6.32-754.6.3.el6.x86_64 #1 SMP Tue Oct 9 17:27:49 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+ma. 18. mars 16:09:44 +0100 2019
+Program nu_correct, built from:
+Package MNI N3, version 1.12.0, compiled by nicks@terrier (x86_64-unknown-linux-gnu) on 2015-06-19 at 01:25:34
+tmpdir is ./tmp.mri_nu_correct.mni.874
+/work/jobs//abby/mri
+mri_convert orig.mgz ./tmp.mri_nu_correct.mni.874/nu0.mnc -odt float
+mri_convert.bin orig.mgz ./tmp.mri_nu_correct.mni.874/nu0.mnc -odt float 
+$Id: mri_convert.c,v 1.226 2016/02/26 16:15:24 mreuter Exp $
+reading from orig.mgz...
+TR=5.16, TE=2.28, TI=0.00, flip angle=8.00
+i_ras = (-1, -7.45058e-09, -7.45058e-09)
+j_ras = (-7.45058e-09, -4.65661e-10, -1)
+k_ras = (0, 1, -4.65661e-10)
+changing data type from uchar to float (noscale = 0)...
+writing to ./tmp.mri_nu_correct.mni.874/nu0.mnc...
+ 
+--------------------------------------------------------
+Iteration 1 ma. 18. mars 16:09:48 +0100 2019
+nu_correct -clobber ./tmp.mri_nu_correct.mni.874/nu0.mnc ./tmp.mri_nu_correct.mni.874/nu1.mnc -tmpdir ./tmp.mri_nu_correct.mni.874/0/ -iterations 1000 -distance 50
+[abby@compute-15-32.local:/work/jobs//abby/mri/] [2019-03-18 16:09:49] running:
+  /cluster/software/VERSIONS/freesurfer-6.0.0/mni/bin/nu_estimate_np_and_em -parzen -log -sharpen 0.15 0.01 -iterations 1000 -stop 0.001 -shrink 4 -auto_mask -nonotify -b_spline 1.0e-7 -distance 50 -quiet -execute -clobber -nokeeptmp -tmpdir ./tmp.mri_nu_correct.mni.874/0/ ./tmp.mri_nu_correct.mni.874/nu0.mnc ./tmp.mri_nu_correct.mni.874/nu1.imp
+
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Processing:.................................................................Done
+Number of iterations: 27 
+CV of field change: 0.000970572
+ 
+ 
+ 
+mri_convert ./tmp.mri_nu_correct.mni.874/nu1.mnc orig_nu.mgz --like orig.mgz --conform
+mri_convert.bin ./tmp.mri_nu_correct.mni.874/nu1.mnc orig_nu.mgz --like orig.mgz --conform 
+$Id: mri_convert.c,v 1.226 2016/02/26 16:15:24 mreuter Exp $
+reading from ./tmp.mri_nu_correct.mni.874/nu1.mnc...
+TR=0.00, TE=0.00, TI=0.00, flip angle=0.00
+i_ras = (-1, -7.45058e-09, -7.45058e-09)
+j_ras = (-7.45058e-09, -4.65661e-10, -1)
+k_ras = (0, 1, -4.65661e-10)
+INFO: transform src into the like-volume: orig.mgz
+changing data type from float to uchar (noscale = 0)...
+MRIchangeType: Building histogram 
+writing to orig_nu.mgz...
+ 
+ 
+ma. 18. mars 16:11:38 +0100 2019
+mri_nu_correct.mni done

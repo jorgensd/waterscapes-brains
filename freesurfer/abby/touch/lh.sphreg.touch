@@ -1,0 +1,1 @@
+mris_register -curv -rusage /work/jobs//abby/touch/rusage.mris_register.lh.dat ../surf/lh.sphere /cluster/software/VERSIONS/freesurfer-6.0.0/average/lh.folding.atlas.acfb40.noaparc.i12.2016-08-02.tif ../surf/lh.sphere.reg

@@ -1,0 +1,1 @@
+mri_convert /work/jobs//abby/mri/rawavg.mgz /work/jobs//abby/mri/orig.mgz --conform

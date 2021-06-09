@@ -1,0 +1,96 @@
+$Id: mri_segreg.c,v 1.113 2016/05/10 03:23:20 greve Exp $
+setenv SUBJECTS_DIR /home/abby/hikeandsurf/mri2fem-dataset/freesurfer
+cd /home/abby/hikeandsurf/Book/mri2fem/mri2fem/chp5
+mri_segreg --mov /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/tmp.bbregister.18191/template.nii --init-reg /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/tmp.bbregister.18191/bbr.pass1.dat --out-reg /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/register.dat --interp trilinear --wm-proj-abs 2 --tol 1e-8 --tol1d 1e-3 --c0 0 --mincost /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/register.dat.mincost --dof 6 --nmax 36 --param /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/register.dat.param --surf white --brute -0.1 0.1 0.1 --cur-reg /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/tmp.bbregister.18191/reg.curopt.dat --gm-proj-frac 0.5 --nsub 1 --gm-gt-wm 0.5 
+sysname  Linux
+hostname abby-ThinkPad-P53
+machine  x86_64
+user     abby
+movvol /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/tmp.bbregister.18191/template.nii
+regfile /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/tmp.bbregister.18191/bbr.pass1.dat
+subject abby
+dof 6
+outregfile /home/abby/hikeandsurf/mri2fem-dataset/freesurfer/abby-dti/register.dat
+UseMask 0
+UseLH 1
+UseRH 1
+nsubsamp 1
+PenaltySign  -1
+PenaltySlope 0.500000
+PenaltyCenter 0.000000
+surfname white
+GMProjFrac 0.500000
+WMProjAbs 2.000000
+lhcostfile (null)
+rhcostfile (null)
+interp  trilinear (1)
+frame  0
+TolPowell 0.000000
+nMaxItersPowell 36
+n1dmin  3
+Profile   0
+Gdiag_no  -1
+AddNoise  0 (0)
+SynthSeed 1612402989
+TransRandMax 0.000000
+RotRandMax 0.000000
+Translations 0.000000 0.000000 0.000000
+Rotations   0.000000 0.000000 0.000000
+Input reg
+ 0.99958  -0.00207   0.02890   1.07427;
+-0.02895  -0.03716   0.99889  -3.14568;
+ 0.00099   0.99931   0.03721   7.58527;
+ 0.00000   0.00000   0.00000   1.00000;
+
+Initial costs ----------------
+Number of surface hits 259970
+WM  Intensity0   405.5353 +/- 136.7968
+Ctx Intensity0   421.8941 +/- 149.1030
+Pct Contrast0      3.2058 +/-  26.0125
+Cost   0.8556
+RelCost   0.8590
+
+Brute force preopt -0.1 0.1 0.1, n = 729
+     0  -0.1000  -0.1000  -0.1000  -0.1000  -0.1000  -0.1000      0.8108   0.8108  0.0
+     9  -0.1000  -0.1000  -0.1000   0.0000  -0.1000  -0.1000      0.8080   0.8080  0.0
+    18  -0.1000  -0.1000  -0.1000   0.1000  -0.1000  -0.1000      0.8065   0.8065  0.0
+    45  -0.1000  -0.1000   0.0000   0.1000  -0.1000  -0.1000      0.8058   0.8058  0.0
+    46  -0.1000  -0.1000   0.0000   0.1000  -0.1000   0.0000      0.8056   0.8056  0.0
+   118  -0.1000   0.0000   0.0000   0.0000  -0.1000   0.0000      0.8056   0.8056  0.0
+   364   0.0000   0.0000   0.0000   0.0000   0.0000   0.0000      0.8053   0.8053  0.0
+
+Final costs ----------------
+Number of surface hits 260540
+WM  Intensity0   399.3599 +/- 133.4341
+Ctx Intensity0   418.2420 +/- 146.1729
+Pct Contrast0      3.8806 +/-  26.3831
+Cost   0.8186
+RelCost   0.8590
+Number of iterations    16
+Min cost was 0.818585
+RelMinCost   0.8204
+Number of FunctionCalls  1541
+OptimizationTime 64.704000 sec
+Parameters at optimum (transmm, rotdeg)
+ 1.69898 -1.37863  0.06994  0.11487  2.59215  4.50861 
+Number of surface hits 260540
+WM  Intensity   399.3599 +/- 133.4341
+Ctx Intensity   418.2420 +/- 146.1729
+Pct Contrast      3.8806 +/-  26.3831
+Cost at optimum   0.8186
+RelCostOptimum   0.8204
+nhits= 260540 wmmn=  399.3599 wmstd=133.4341 constd=   26.3831 ctxmn=  418.2420 ctxstd=146.1729 conmn =   3.8806 costmn =   0.8186 
+#C#   1.699  -1.379   0.070  0.115  2.592  4.509 0.000000 0.000000 0.818585 399.359935 418.241982 3.880626 0.000000 0.500000     1 0
+Reg at min cost was 
+ 0.99779   0.04607  -0.04797   3.35901;
+ 0.04963  -0.03566   0.99813  -4.41843;
+-0.04427   0.99830   0.03786   7.59254;
+ 0.00000   0.00000   0.00000   1.00000;
+
+Original Reg - Optimal Reg
+ 0.00179  -0.04814   0.07687  -2.28474;
+-0.07859  -0.00151   0.00076   1.27275;
+ 0.04527   0.00101  -0.00066  -0.00728;
+ 0.00000   0.00000   0.00000   0.00000;
+
+Surface-RMS-Diff-mm 3.668381 1.449858 7.503012
