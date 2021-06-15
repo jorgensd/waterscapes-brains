@@ -1,7 +1,6 @@
 ## Requirements:
 
-# meshio
-# fenics 
+# meshio, fenics, SVMTK, FreeSurfer, numpy
 
 ## Notes:
 
@@ -20,13 +19,15 @@ python3 create_mesh.py --generate_stl --preprocess_surfaces --create 16
 
 # Next
 
-## Setting up the environment
-# Run fenics in a Docker container e.g. and install meshio via pip. For instance:
+# Run fenics in a Docker container e.g. and install meshio via
+# pip. For instance, you can set up an environment via.
 
 fenicsproject create mri2fem # First time only
 fenicsproject start mri2fem
 sudo pip install meshio # First time only
 sudo pip install m5py   # First time only
+
+# And then run the FEniCS processing of the mesh:
 
 python3 create_mesh.py --postprocess 16
 
