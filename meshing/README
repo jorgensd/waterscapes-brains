@@ -1,0 +1,32 @@
+## Requirements:
+
+# meshio
+# fenics 
+
+## Notes:
+
+# Script extract-ventricles.sh copied from mri2fem book
+# (chp4/extract-ventricles.sh), updated location of input filename.
+
+## Instructions:
+
+# To generate full brain mesh (without ventricles), with gray and
+# white markers, from scratch, run:
+
+python3 create_mesh.py --generate_stl --preprocess_surfaces --create 16
+
+# NB: The above command depends on FreeSurfer, meshio, SVMTK, but not
+# on FEniCS, and will take perhaps 1-2 minutes to complete.
+
+# Next
+
+## Setting up the environment
+# Run fenics in a Docker container e.g. and install meshio via pip. For instance:
+
+fenicsproject create mri2fem # First time only
+fenicsproject start mri2fem
+sudo pip install meshio # First time only
+sudo pip install m5py   # First time only
+
+python3 create_mesh.py --postprocess 16
+
