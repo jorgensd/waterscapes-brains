@@ -32,8 +32,8 @@ def preprocess_surface(f):
     surface = svmtk.Surface(f)
             
     print("Remeshing %s, this may take some time..." % f)
-    L = 3.0 # mm
-    m = 4   # Quantitative mesh size parameter 
+    L = 2.0 # mm
+    m = 5   # Quantitative mesh size parameter 
     do_not_move_boundary_edges = False
     surface.isotropic_remeshing(L, m, do_not_move_boundary_edges)
     

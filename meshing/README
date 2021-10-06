@@ -14,12 +14,18 @@
 
 python3 create_mesh.py --generate_stl --preprocess_surfaces --create 16
 
+# To just create the mesh (after generating surfaces etc, run)
+python3 create_mesh.py --create 8
+
 # NB: The above command depends on FreeSurfer, meshio, SVMTK, but not
 # on FEniCS, and will take perhaps 1-2 minutes to complete.
 
+# Adjust other parameters in create_mesh functions to adjust
+# smoothing, surface meshing parameters etc.
+
 # Next
 
-# Run fenics in a Docker container e.g. and install meshio via
+# Run fenics in a Docker container e.g. and there install meshio via
 # pip. For instance, you can set up an environment via.
 
 fenicsproject create mri2fem # First time only
@@ -27,7 +33,15 @@ fenicsproject start mri2fem
 sudo pip install meshio # First time only
 sudo pip install m5py   # First time only
 
-# And then run the FEniCS processing of the mesh:
-
+# And then run the FEniCS processing of the mesh, here abby_16:
 python3 create_mesh.py --postprocess 16
+
+# To clean everything and start a new, do
+python3 create_mesh.py --clean
+
+# abby_4: 37179 cells, 7848 vertices. # Too coarse for anything but prototyping
+# abby_6: 90367 cells, 17750 vertices.
+# abby_7: 117045 cells, 23024 vertices.
+# abby_8: 145195 cells, 28652 vertices.
+
 
