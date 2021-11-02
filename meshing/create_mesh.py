@@ -1,4 +1,3 @@
-
 def read_h5_mesh(hdf5file):
     # Read the mesh and mesh data from .h5 :
 
@@ -16,13 +15,14 @@ def read_h5_mesh(hdf5file):
 
     boundaries = dolfin.MeshFunction("size_t", mesh, d-1)
     hdf.read(boundaries, "/boundaries")
+    hdf.close()
 
     print(".. with %d cells and %d vertices." % (mesh.num_cells(), mesh.num_vertices()))
     print("Subdomain markers:", numpy.unique(subdomains.array()))
     print("Boundary markers", numpy.unique(boundaries.array()))
-    
-    hdf.close()
 
+    return (mesh, subdomains, boundaries)
+    
 def preprocess_surface(f):
 
     import os.path
@@ -30,9 +30,9 @@ def preprocess_surface(f):
     
     print("Loading %s" % f)
     surface = svmtk.Surface(f)
-            
+
     print("Remeshing %s, this may take some time..." % f)
-    L = 2.0 # mm
+    L = 1.0 # mm
     m = 5   # Quantitative mesh size parameter 
     do_not_move_boundary_edges = False
     surface.isotropic_remeshing(L, m, do_not_move_boundary_edges)
@@ -44,11 +44,45 @@ def preprocess_surface(f):
     print("Smoothing %s, this may take some time..." % f)
     n_its = 2
     surface.smooth_taubin(n_its)
-    
+
     smooth = "".join([f[:-3], "smooth.stl"])
     print("Saving smooth surface as %s" % smooth)
     surface.save(smooth)
 
+    print("Filling holes in the surface %s" % f)
+    surface.fill_holes()
+
+    print("Keeping largest connected component")
+    surface.keep_largest_connected_component()
+    
+    print("Improvement loop")
+    #if "pial." in f:
+    num_its = 1
+    for it in range(num_its):
+
+        print("Number of self-intersections:", surface.num_self_intersections() )
+        if surface.num_self_intersections() == 0:
+            break
+        
+        separation = 0.5
+        print("Separating close vertices with separation = %g" % separation)
+        surface.separate_close_vertices(separation)
+        
+        surface.isotropic_remeshing(L, m, do_not_move_boundary_edges)
+        
+        print("Filling holes in the surface %s (again)" % f)
+        surface.fill_holes()  
+
+        print("Number of self-intersections after:", surface.num_self_intersections() )
+
+        # Default argument for separate_narrow_gaps is -0.33. 
+        print("Separating narrow gaps in the surface %s %d" % (f, it))
+        surface.separate_narrow_gaps(-0.5)
+        
+    repaired = "".join([f[:-3], "repaired.stl"])
+    print("Saving repaired surface as %s" % repaired)
+    surface.save(repaired)
+    
 def convert_mesh_data(infile, outfile="abby.h5", tmpdir="tmp-xdmf"):
     import meshio
     import os.path
@@ -132,7 +166,7 @@ def create_brain_mesh(files, outbase, n=12):
     domain.save(meshfile)
 
     if False:
-        tmpdir = "tmp-xml"
+        tmpdir = "current-xdmf-xml"
         if not os.path.isdir(tmpdir):
             os.mkdir(tmpdir)
         xdmffile = os.path.join(tmpdir, "%s.xdmf" % outbase)
@@ -200,15 +234,15 @@ if __name__ == "__main__":
             subprocess.run(["mv", outfile, os.path.join(stldir, outfile)])
     
     if args.preprocess_surfaces:
-        print("Remeshing and smoothing all surfaces")
+        print("Remeshing, smoothing and fixing all surfaces")
         stls = [os.path.join(stldir, "%s.stl" % f) for f in files]
         for f in stls:
             preprocess_surface(f)
-
+            
     # Generate mesh
     if args.create:
         n = int(args.create)
-        sfiles = [os.path.join(stldir, "".join([f, ".smooth.stl"])) for f in files[:-1]]
+        sfiles = [os.path.join(stldir, "".join([f, ".repaired.stl"])) for f in files[:-1]]
         sfiles.append(os.path.join(stldir, "".join([files[-1], ".stl"])))
         create_brain_mesh(sfiles, "abby_%d" % n, n=n)
 
