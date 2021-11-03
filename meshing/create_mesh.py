@@ -32,8 +32,8 @@ def preprocess_surface(f):
     surface = svmtk.Surface(f)
 
     print("Remeshing %s, this may take some time..." % f)
-    L = 1.0 # mm
-    m = 5   # Quantitative mesh size parameter 
+    L = 3.0 # mm This should be comparable with the mesh size of the mesh created
+    m = 5   # This is an iteration number parameter
     do_not_move_boundary_edges = False
     surface.isotropic_remeshing(L, m, do_not_move_boundary_edges)
     
@@ -41,47 +41,46 @@ def preprocess_surface(f):
     print("Saving remeshed surface as %s" % remeshed)
     surface.save(remeshed)
     
-    print("Smoothing %s, this may take some time..." % f)
-    n_its = 2
-    surface.smooth_taubin(n_its)
-
-    smooth = "".join([f[:-3], "smooth.stl"])
-    print("Saving smooth surface as %s" % smooth)
-    surface.save(smooth)
-
     print("Filling holes in the surface %s" % f)
     surface.fill_holes()
 
     print("Keeping largest connected component")
     surface.keep_largest_connected_component()
-    
-    print("Improvement loop")
-    #if "pial." in f:
-    num_its = 1
+
+    if "pial" in f:
+        print("Adjusting boundary for %s" % f)
+        surface.adjust_boundary(0.1)
+
+    print("Separating close vertices")
+    num_its = 5
     for it in range(num_its):
 
         print("Number of self-intersections:", surface.num_self_intersections() )
         if surface.num_self_intersections() == 0:
             break
         
-        separation = 0.5
+        separation = 1.0 # Percentage/ratio 
         print("Separating close vertices with separation = %g" % separation)
         surface.separate_close_vertices(separation)
-        
+
+        print("Remeshing and smoothing again")
         surface.isotropic_remeshing(L, m, do_not_move_boundary_edges)
-        
-        print("Filling holes in the surface %s (again)" % f)
-        surface.fill_holes()  
+        surface.smooth_taubin(2)
 
         print("Number of self-intersections after:", surface.num_self_intersections() )
-
         # Default argument for separate_narrow_gaps is -0.33. 
-        print("Separating narrow gaps in the surface %s %d" % (f, it))
-        surface.separate_narrow_gaps(-0.5)
-        
-    repaired = "".join([f[:-3], "repaired.stl"])
-    print("Saving repaired surface as %s" % repaired)
-    surface.save(repaired)
+        #print("Separating narrow gaps in the surface %s %d" % (f, it))
+        #surface.separate_narrow_gaps(-0.5)
+
+    print("Smoothing %s, this may take some time..." % f)
+    n_its = 5
+    surface.smooth_taubin(n_its)
+
+    # Save final surface 
+    final = "".join([f[:-3], "final.stl"])
+    print("Saving final surface as %s" % final)
+    surface.save(final)
+
     
 def convert_mesh_data(infile, outfile="abby.h5", tmpdir="tmp-xdmf"):
     import meshio
@@ -117,6 +116,8 @@ def convert_mesh_data(infile, outfile="abby.h5", tmpdir="tmp-xdmf"):
     with dolfin.XDMFFile("%s/mesh.xdmf" % tmpdir) as infile:
         infile.read(mesh)
 
+    print(mesh.hmin())
+    print(mesh.hmax())
     d = mesh.topology().dim()
     subdomains = dolfin.MeshFunction("size_t", mesh, d)
     with dolfin.XDMFFile("%s/subdomains.xdmf" % tmpdir) as infile:
@@ -132,34 +133,60 @@ def convert_mesh_data(infile, outfile="abby.h5", tmpdir="tmp-xdmf"):
     ofile.write(subdomains, "/subdomains")
     ofile.write(boundaries, "/boundaries")
     ofile.close()
-    
-def create_brain_mesh(files, outbase, n=12):
+
+def create_brain_mesh(files, outbase, n=12, wholebrain=False):
 
     import SVMTK as svmtk
 
-    # Load as surfaces
-    surfaces = [svmtk.Surface(s) for s in files]
-    surfaces[2].union(surfaces[3])    
-    surfaces.pop(3)
+    if wholebrain:
+        print("Creating whole brain (pial + white - ventricles) mesh")
+        # Load as surfaces
+        surfaces = [svmtk.Surface(s) for s in files]
+        surfaces[2].union(surfaces[3])    
+        surfaces.pop(3)
 
-    # Label the different regions
-    tags = {"pial": 1, "white": 2, "ventricle": 3}
-    smap = svmtk.SubdomainMap()
-    smap.add("1000", tags["pial"])
-    smap.add("0100", tags["pial"])
-    smap.add("1010", tags["white"])
-    smap.add("0110", tags["white"])
-    smap.add("1110", tags["white"])
-    smap.add("1011", tags["ventricle"])
-    smap.add("0111", tags["ventricle"])
-    smap.add("1111", tags["ventricle"])
-    
-    print("Creating mesh")
-    domain = svmtk.Domain(surfaces, smap)
-    domain.create_mesh(n)
+        (lhpial, rhpial, white, ventricles) = surfaces
+        # rhpial and lhpial are the surfaces that we try to separate
+        # white argument: exclude stuff inside white
+        # edge_movement is a relative factor
+        print("Separating overlapping and close surfaces")
+        svmtk.separate_overlapping_surfaces(rhpial, lhpial, white, edge_movement=-0.3,
+                                            smoothing=0.3)
+        svmtk.separate_close_surfaces(rhpial, lhpial, white, edge_movement=-0.3,
+                                      smoothing=0.3)
 
-    print("Removing ventricles")
-    domain.remove_subdomain(tags["ventricle"])
+        # Label the different regions
+        tags = {"pial": 1, "white": 2, "ventricle": 3}
+        smap = svmtk.SubdomainMap()
+        smap.add("1000", tags["pial"])
+        smap.add("0100", tags["pial"])
+        smap.add("1010", tags["white"])
+        smap.add("0110", tags["white"])
+        smap.add("1110", tags["white"])
+        smap.add("1011", tags["ventricle"])
+        smap.add("0111", tags["ventricle"])
+        smap.add("1111", tags["ventricle"])
+
+        domain = svmtk.Domain(surfaces, smap)
+        domain.create_mesh(n)
+
+        print("Removing ventricles")
+        domain.remove_subdomain(tags["ventricle"])
+        
+    else:
+        print("Creating hemisphere (pial - ventricles) mesh")
+        lhpial = svmtk.Surface(files[0])
+        ventricles = svmtk.Surface(files[4])
+        tags = {"pial": 1, "ventricle": 3}
+        smap = svmtk.SubdomainMap()
+        smap.add("10", tags["pial"])
+        smap.add("11", tags["ventricle"])
+
+        domain = svmtk.Domain([lhpial, ventricles], smap)
+        domain.create_mesh(n)
+
+        print("Removing ventricles")
+        domain.remove_subdomain(tags["ventricle"])
 
     meshfile = "%s.mesh" % outbase
     print("Writing mesh to %s" % meshfile)
@@ -238,15 +265,20 @@ if __name__ == "__main__":
         stls = [os.path.join(stldir, "%s.stl" % f) for f in files]
         for f in stls:
             preprocess_surface(f)
-            
+
     # Generate mesh
     if args.create:
         n = int(args.create)
-        sfiles = [os.path.join(stldir, "".join([f, ".repaired.stl"])) for f in files[:-1]]
+        sfiles = [os.path.join(stldir, "".join([f, ".final.stl"])) for f in files[:-1]]
         sfiles.append(os.path.join(stldir, "".join([files[-1], ".stl"])))
+        print("Creating brain mesh from %s" % sfiles)
         create_brain_mesh(sfiles, "abby_%d" % n, n=n)
 
+    # Relies on FEniCS:
     if args.postprocess:
         n = int(args.postprocess)
         convert_mesh_data("abby_%d.mesh" % n, "abby_%d.h5" % n)
         read_h5_mesh("abby_%d.h5" % n)
+
+    # Note to self distance between gaps need to be larger than
+    # minimal cell size.
