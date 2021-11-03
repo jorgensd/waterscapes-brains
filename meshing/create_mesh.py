@@ -4,7 +4,7 @@ def read_h5_mesh(hdf5file):
     import dolfin
     import numpy
     
-    print("Importing mesh")
+    print("Importing mesh from %s" % hdf5file)
     mesh = dolfin.Mesh()
     hdf = dolfin.HDF5File(mesh.mpi_comm(), hdf5file, "r")
     hdf.read(mesh, "/mesh", False)
@@ -23,7 +23,7 @@ def read_h5_mesh(hdf5file):
 
     return (mesh, subdomains, boundaries)
     
-def preprocess_surface(f):
+def preprocess_surface(f, lhonly=True):
 
     import os.path
     import SVMTK as svmtk
@@ -46,10 +46,15 @@ def preprocess_surface(f):
 
     print("Keeping largest connected component")
     surface.keep_largest_connected_component()
-
-    if "pial" in f:
+    
+    if "pial" in f and lhonly:
         print("Adjusting boundary for %s" % f)
         surface.adjust_boundary(0.1)
+        #surface.adjust_boundary(0.0)
+
+    #if "pial" in f and not lhonly:
+    #    print("Adjusting boundary for %s" % f)
+    #    surface.adjust_boundary(2.0)
 
     print("Separating close vertices")
     num_its = 5
@@ -82,7 +87,7 @@ def preprocess_surface(f):
     surface.save(final)
 
     
-def convert_mesh_data(infile, outfile="abby.h5", tmpdir="tmp-xdmf"):
+def convert_mesh_data(infile, outfile, tmpdir="tmp-xdmf"):
     import meshio
     import os.path
 
@@ -134,7 +139,7 @@ def convert_mesh_data(infile, outfile="abby.h5", tmpdir="tmp-xdmf"):
     ofile.write(boundaries, "/boundaries")
     ofile.close()
 
-def create_brain_mesh(files, outbase, n=12, wholebrain=False):
+def create_brain_mesh(files, outbase, n=12, wholebrain=True):
 
     import SVMTK as svmtk
 
@@ -150,10 +155,10 @@ def create_brain_mesh(files, outbase, n=12, wholebrain=False):
         # white argument: exclude stuff inside white
         # edge_movement is a relative factor
         print("Separating overlapping and close surfaces")
-        svmtk.separate_overlapping_surfaces(rhpial, lhpial, white, edge_movement=-0.3,
+        svmtk.separate_overlapping_surfaces(rhpial, lhpial, white, edge_movement=-1.0,
                                             smoothing=0.3)
-        svmtk.separate_close_surfaces(rhpial, lhpial, white, edge_movement=-0.3,
-                                      smoothing=0.3)
+        svmtk.separate_close_surfaces(rhpial, lhpial, white, edge_movement=-1.0,
+                                                  smoothing=0.3)
 
         # Label the different regions
         tags = {"pial": 1, "white": 2, "ventricle": 3}
@@ -272,13 +277,14 @@ if __name__ == "__main__":
         sfiles = [os.path.join(stldir, "".join([f, ".final.stl"])) for f in files[:-1]]
         sfiles.append(os.path.join(stldir, "".join([files[-1], ".stl"])))
         print("Creating brain mesh from %s" % sfiles)
-        create_brain_mesh(sfiles, "abby_%d" % n, n=n)
+        #create_brain_mesh(sfiles, "abby_%d" % n, n=n, wholebrain=True)
+        create_brain_mesh(sfiles, "abby_lh_%d" % n, n=n, wholebrain=False)
 
     # Relies on FEniCS:
     if args.postprocess:
         n = int(args.postprocess)
-        convert_mesh_data("abby_%d.mesh" % n, "abby_%d.h5" % n)
-        read_h5_mesh("abby_%d.h5" % n)
+        convert_mesh_data("abby_lh_%d.mesh" % n, "abby_lh_%d.h5" % n)
+        read_h5_mesh("abby_lh_%d.h5" % n)
 
     # Note to self distance between gaps need to be larger than
     # minimal cell size.
