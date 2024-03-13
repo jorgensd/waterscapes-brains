@@ -1,0 +1,8 @@
+name: waterscales-brains
+channels:
+  - conda-forge
+dependencies:
+  - fenics-dolfin
+  - svmtk
+  - python>=3.8
+  - meshio
