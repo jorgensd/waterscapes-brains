@@ -13,13 +13,6 @@
 
 ## Instructions:
 
-# To generate left hemisphere brain mesh (without ventricle(s)), with
-# boundary markers, from scratch, run:
-python3 create_mesh.py --generate_stl --preprocess_surfaces --create 12
-
-# To generate full brain mesh, uncomment suitable line in the code and
-# set wholebrain=True... and then do:
-
 # To generate full brain mesh (without ventricles), with gray and
 # white markers, from scratch, run:
 python3 create_mesh.py --generate_stl --preprocess_surfaces --create 12
@@ -27,7 +20,9 @@ python3 create_mesh.py --generate_stl --preprocess_surfaces --create 12
 # To just create the mesh (after generating surfaces etc, run)
 python3 create_mesh.py --create 12
 
-# NB: The above command depends on FreeSurfer, meshio, SVMTK, but not
+# See create_mesh.py for more information, including arguments.
+
+# NB: The above commands depends on FreeSurfer, meshio, SVMTK, but not
 # on FEniCS, and will take perhaps 1-2 minutes to complete.
 
 # Adjust other parameters in create_mesh functions to adjust
@@ -43,13 +38,13 @@ fenicsproject start mri2fem
 sudo pip3 install meshio # First time only
 sudo pip3 install h5py   # First time only
 
-# And then run the FEniCS processing of the mesh, here abby_16:
-python3 create_mesh.py --postprocess 16
+# And then run the FEniCS processing of the mesh, here abby_12:
+python3 create_mesh.py --postprocess 12
 
 # Check mesh with Dokken's topology check script.
-python3 mesh_checker.py --infile abby_lh_12
+python3 mesh_checker.py --infile abby_12
 
-# To clean everything and start a new, do
+# To clean-up everything and start a fresh, do
 python3 create_mesh.py --clean
 
 # abby_4: 37179 cells, 7848 vertices. # Too coarse for anything but prototyping

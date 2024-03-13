@@ -34,7 +34,8 @@ def preprocess_surface(f, lhonly=False):
     surface = svmtk.Surface(f)
 
     print("Remeshing %s, this may take some time..." % f)
-    L = 2.0 # (mm) This should be comparable with the mesh size of the mesh created
+    L = 3.0 # (mm) This should be comparable with the mesh size of the
+            # mesh to be created AND the resolution of the geometry
     m = 5   # This is an iteration number parameter, 5 is fine.
     do_not_move_boundary_edges = False
     surface.isotropic_remeshing(L, m, do_not_move_boundary_edges)
@@ -70,9 +71,10 @@ def preprocess_surface(f, lhonly=False):
         surface.smooth_taubin(2)
 
         print("Number of self-intersections after:", surface.num_self_intersections() )
+
         # Default argument for separate_narrow_gaps is -0.33. 
         #print("Separating narrow gaps in the surface %s %d" % (f, it))
-        #surface.separate_narrow_gaps(-0.5)
+        #surface.separate_narrow_gaps(-0.33)
 
     print("Smoothing %s, this may take some time..." % f)
     n_its = 5
@@ -85,7 +87,7 @@ def preprocess_surface(f, lhonly=False):
 
 def convert_mesh_data(infile, outfile, outdir="tmp-abby-meshes"):
     # Convert the .mesh file to FEniCS (legacy) .h5 format with
-    # temporary .xdmf output in 'outdir'
+    # temporary .xdmf output in outdir
 
     import meshio
     import os.path
@@ -235,11 +237,13 @@ if __name__ == "__main__":
     import os.path
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("--clean", action="store_true", help="Remove all generated files")
+    parser.add_argument("--clean", action="store_true", help="Remove *all* generated files")
     parser.add_argument("--generate_stl", action="store_true", help="Copy and convert FreeSurfer files to STL")
     parser.add_argument("--preprocess_surfaces", action="store_true", help="Remesh and smoothen STL surfaces")
     parser.add_argument("--create", default=0, help="Create mesh with given int resolution")
+    parser.add_argument("--create_lh", default=0, help="Create lh mesh with given int resolution")
     parser.add_argument("--postprocess", default=0, help="Convert meshio data to FEniCS (HDF5) file")
+    parser.add_argument("--postprocess_lh", default=0, help="Convert lh meshio data to FEniCS (HDF5) file")
     args = parser.parse_args()
     
     if args.clean:
@@ -269,7 +273,6 @@ if __name__ == "__main__":
             print("Moving %s to %s/..." % (outfile, stldir))
             subprocess.run(["mv", outfile, os.path.join(stldir, outfile)])
 
-
     # Preprocess surfaces. Note the L parameter in preprocess surface,
     # this adjusts the surface cell size. Adjust this size depending
     # on the target mesh size.
@@ -279,37 +282,68 @@ if __name__ == "__main__":
         for f in stls:
             preprocess_surface(f)
 
-    # Generate mesh
+    # Generate brain mesh
     if args.create:
         n = int(args.create)
         sfiles = [os.path.join(stldir, "".join([f, ".final.stl"])) for f in files[:-1]]
         sfiles.append(os.path.join(stldir, "".join([files[-1], ".stl"])))
         print("Creating brain mesh from %s" % sfiles)
-        #create_lh_mesh(sfiles[0], sfiles[4], "abby_lh_%d" % n, n=n)
         create_brain_mesh(sfiles, "abby_%d" % n, n=n)
 
+    # Generate left hemisphere mesh
+    if args.create_lh:
+        n = int(args.create_lh)
+        sfiles = [os.path.join(stldir, "".join([f, ".final.stl"])) for f in files[:-1]]
+        sfiles.append(os.path.join(stldir, "".join([files[-1], ".stl"])))
+        print("Creating left hemisphere mesh from %s" % sfiles)
+        create_lh_mesh(sfiles[0], sfiles[4], "abby_lh_%d" % n, n=n)
+        
     # Relies on FEniCS:
     if args.postprocess:
         n = int(args.postprocess)
-        # Convert mesh, subdomains, and boundary markers to FEniCS .h5 format
+        # Convert brain mesh, subdomains, and boundary markers to FEniCS .h5 format
         convert_mesh_data("abby_%d.mesh" % n, "abby_%d.h5" % n)
         # Test that the data can be read back in.
         read_h5_mesh("abby_%d.h5" % n)
 
-    # Note to self: distance between gaps need to be larger than
-    # minimal cell size.
+    if args.postprocess_lh:
+        n = int(args.postprocess_lh)
+        # Convert lh mesh, subdomains, and boundary markers to FEniCS .h5 format
+        convert_mesh_data("abby_lh_%d.mesh" % n, "abby_lh_%d.h5" % n)
+        # Test that the data can be read back in.
+        read_h5_mesh("abby_lh_%d.h5" % n)
+        
+        
+    # Step-by-step example: to create meshes 
 
-    # Example usage: to create several meshes stepwise
-
+    # Meshsize 32 below gives nice meshes, but you can make them
+    # coarser as well, use e.g. 8, 16, or 24.
+    
     # python3 create_mesh.py --generate_stl   
-
-    # python3 create_mesh.py --preprocess_surface # Set e.g. L = 2 first
-    # python3 create_mesh.py --create 16 
-    # python3 create_mesh.py --create 32 
-
-    # python3 create_mesh.py --preprocess_surface # Set e.g. L = 1 first
-    # python3 create_mesh.py --create 16 
-    # python3 create_mesh.py --create 32 
+    # python3 create_mesh.py --preprocess_surface 
+    # python3 create_mesh.py --create 32
+    # python3 create_mesh.py --create_lh 32 
 
     # fenicsproject run
-    # 
+    # python3 create_mesh.py --postprocess 32
+    # python3 create_mesh.py --postprocess_lh 32
+    # exit
+
+    # python3 mesh_checker.py --infile abby_32
+    # python3 mesh_checker.py --infile abby_lh_32
+
+    ## *Other notes to self and others*
+
+    # Distance between gaps need to be larger than minimal cell size.
+
+    # First, have a look at what L is set to in the code above. Adjust
+    # at will (recommended range from 1.0 to 3.0 (mm): 1.0 is pretty
+    # fine, 3.0 is pretty coarse). This has implications for the
+    # largest meshsize you can consider.
+
+    # Creating good left hemisphere meshes is pretty straight-forward
+    # (increase the mesh size if you get issues with the mesh
+    # checker), but creating good full brain meshes is not so easy due
+    # to the merging of the multiple hemisphere surfaces. My best tip
+    # thus far is to play with the processing, resolutions and mesh
+    # sizes or consult with a brain meshing expert.
