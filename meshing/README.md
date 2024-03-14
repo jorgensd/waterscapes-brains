@@ -26,10 +26,19 @@ docker run -ti -v $(pwd):/root/shared -w /root/shared waterscales-brains
 
 ### Generate STL (intermediate surface triangulation) of the brain from MRI
 
-To generate full brain mesh (without ventricles), with gray and white markers, from scratch, run:
+To generate full brain mesh (without ventricles), with gray and
 
 ```bash
-python3 create_mesh.py --generate_stl --preprocess_surfaces --create 16
+python3 create_mesh.py --generate_stl --preprocess_surfaces --create 12
+```
+
+To just create the mesh (after generating surfaces etc, run)
+python3 create_mesh.py --create 12
+
+For more information about how to us this script, call
+
+```bash
+python3 create_mesh.py -h
 ```
 
 ### Create volume mesh
@@ -53,7 +62,10 @@ Run the FEniCS processing of the mesh, here `abby_16`:
 python3 create_mesh.py --postprocess 16
 ```
 
-Check mesh with Dokken's topology check [script](https://gist.github.com/jorgensd/4ebce24192b75a060f342ccf6f4c6555).
+The script `mesh_checker.py` was provided by Jørgen S. Dokken and Chris
+Richardson as a script for testing the validity of the resulting
+mesh, concretely whether the mesh is a pure simplicial complex.
+[script](https://gist.github.com/jorgensd/4ebce24192b75a060f342ccf6f4c6555).
 
 ```bash
 python3 mesh_checker.py --infile abby_16 --topology="mesh/topology" --geometry="mesh/coordinates"

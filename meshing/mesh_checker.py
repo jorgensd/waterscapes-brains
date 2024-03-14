@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier:    LGPL-3.0-or-later
 
-import numba
 import networkx
 from collections import defaultdict
 import h5py
@@ -124,7 +123,6 @@ def check_mesh(file_name: str, topology_path: str, geometry_path: str, outfile: 
     return edges[bad_facets], edges[bad_edges]
 
 
-#@numba.njit
 def extract_cell_index(topology, edges):
     """
     Given a mesh topology, and a set of edges defined by its vertices, find the cells
