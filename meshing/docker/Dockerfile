@@ -2,6 +2,7 @@
 FROM condaforge/mambaforge 
 
 ENV DEBIAN_FRONTEND=noninteractive
+ARG FREESURFER_VERSION=7.4.0
 
 # Upgrade mamba
 RUN mamba upgrade -y mamba
@@ -13,13 +14,16 @@ COPY environment.yml .
 RUN mamba env update --file environment.yml --name waterscales-brains
 
 # Install freesurfer
-RUN wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.2.0/freesurfer_7.2.0_amd64.deb
+RUN wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${FREESURFER_VERSION}/freesurfer-linux-ubuntu22_amd64-${FREESURFER_VERSION}.tar.gz
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y language-pack-en binutils libx11-dev gettext xterm x11-apps make csh tcsh file bc xorg xorg-dev libncurses5 libjpeg62
-RUN dpkg -i freesurfer_7.2.0_amd64.deb
+RUN dpkg -i freesurfer-linux-ubuntu22_amd64-${FREESURFER_VERSION}.deb
 SHELL ["mamba", "run", "-n", "waterscales-brains", "/bin/bash", "-c"]
 RUN echo "source activate waterscales-brains" > ~/.bashrc
 
-COPY ./docker/.license /usr/local/freesurfer/7.2.0/.license
-ENV PATH="/usr/local/freesurfer/7.2.0/bin:${PATH}"
-ENV FREESURFER_HOME="/usr/local/freesurfer/7.2.0"
+COPY ./docker/.license /usr/local/freesurfer/${FREESURFER_VERSION}/.license
+ENV PATH="/usr/local/freesurfer/${FREESURFER_VERSION}/bin:${PATH}"
+ENV FREESURFER_HOME="/usr/local/freesurfer/${FREESURFER_VERSION}"
+
+RUN apt -y install mesa-utils
+ENV MESA_LOADER_DRIVER_OVERRIDE=i965
