@@ -1,23 +1,24 @@
 
-FROM condaforge/mambaforge 
+FROM condaforge/mambaforge:24.9.0-0
 
 ENV DEBIAN_FRONTEND=noninteractive
 ARG FREESURFER_VERSION=7.4.0
+
 
 # Upgrade mamba
 RUN mamba upgrade -y mamba
 
 # Copy environment and requirements files into docker env
 COPY environment.yml .
-
 # Update environment file with new environment name
 RUN mamba env update --file environment.yml --name waterscales-brains
 
+RUN apt-get update && apt-get install -y language-pack-en binutils libx11-dev gettext xterm x11-apps make csh tcsh file bc xorg xorg-dev libncurses5 libjpeg62 lsb-release
+
 # Install freesurfer
-RUN wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${FREESURFER_VERSION}/freesurfer-linux-ubuntu22_amd64-${FREESURFER_VERSION}.tar.gz
+RUN wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${FREESURFER_VERSION}/freesurfer_ubuntu$(lsb_release -sr | cut -d "." -f 1)-${FREESURFER_VERSION}_amd64.deb
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y language-pack-en binutils libx11-dev gettext xterm x11-apps make csh tcsh file bc xorg xorg-dev libncurses5 libjpeg62
-RUN dpkg -i freesurfer-linux-ubuntu22_amd64-${FREESURFER_VERSION}.deb
+RUN dpkg -i freesurfer_ubuntu$(lsb_release -sr | cut -d "." -f 1)-${FREESURFER_VERSION}_amd64.deb
 SHELL ["mamba", "run", "-n", "waterscales-brains", "/bin/bash", "-c"]
 RUN echo "source activate waterscales-brains" > ~/.bashrc
 
